@@ -15,6 +15,7 @@ import {
   Box,
   Multiselect,
   Toggle,
+  Autosuggest,
 } from '@cloudscape-design/components';
 import { FT_OPTIONS, QUANT_OPTIONS, TRAINING_STAGES, TRAINING_PRECISION,OPTMIZERS,INSTANCE_TYPES,BOOSTER_OPTIONS, DEEPSPEED } from '../form-config';
 import validateField from '../form-validation-config';
@@ -184,49 +185,53 @@ function DeepSpeedConfigs({ onChange, readOnly, data,setData }) {
 const SelectPromptTemplate = ({ data, setData, readOnly, refs }) => {
   const [loadStatus, setLoadStatus] = useState("loading");
   const [items, setItems] = useState([]);
-  // const initState = data.job_payload ? { label: data.job_payload.prompt_template, value: data.job_payload.prompt_template } : {};
   const [selectOption, setSelectOption] = useState({});
+
   useEffect(() => {
     if (data.job_payload) {
-      setSelectOption({ label: data.job_payload.prompt_template, value: data.job_payload.prompt_template });
-      setData({ prompt_template: data.job_payload.prompt_template })
+      const initialOption = { label: data.job_payload.prompt_template, value: data.job_payload.prompt_template };
+      setSelectOption(initialOption);
+      setData({ prompt_template: data.job_payload.prompt_template });
     }
-  }, [data.job_payload]);
-  const handleLoadItems = async ({
-    detail: { filteringText, firstPage, samePage },
-  }) => {
+  }, [data.job_payload, setData]);
+
+  const handleLoadItems = async () => {
     setLoadStatus("loading");
     try {
-      const data = await remotePost({ config_name: 'prompt_template' }, 'get_factory_config');
-      const items = data.response.body.map((it) => ({
+      const response = await remotePost({ config_name: 'prompt_template' }, 'get_factory_config');
+      const newItems = response.response.body.map((it) => ({
         prompt_template: it,
       }));
-      setItems(items);
+      setItems(newItems);
       setLoadStatus("finished");
     } catch (error) {
-      console.log(error);
+      console.error(error);
       setLoadStatus("error");
     }
   };
+
   return (
-    <Select
-      statusType={loadStatus}
-      onLoadItems={handleLoadItems}
-      selectedOption={selectOption}
-      disabled={readOnly}
+    <Autosuggest
       onChange={({ detail }) => {
-        setSelectOption(detail.selectedOption);
-        setData({ prompt_template: detail.selectedOption.value })
+        const newValue = detail.value;
+        setSelectOption({ label: newValue, value: newValue });
+        setData({ prompt_template: newValue });
       }}
+      value={selectOption.value || ""}
       options={items.map(({ prompt_template }) => ({
         label: prompt_template,
-        value: prompt_template,
+        value: prompt_template
       }))}
-      selectedAriaLabel="Selected"
+      ariaLabel="Select prompt template"
+      placeholder="Enter prompt template"
+      empty="No templates found"
+      disabled={readOnly}
+      statusType={loadStatus}
+      onLoadItems={handleLoadItems}
       ref={refs.prompt_template}
     />
-  )
-}
+  );
+};
 
 
 const SelectModelName = ({ data, setData, readOnly, refs }) => {
@@ -258,21 +263,21 @@ const SelectModelName = ({ data, setData, readOnly, refs }) => {
     }
   };
   return (
-    <Select
+    <Autosuggest
+      onChange={({ detail }) => {
+        setSelectOption({ value: detail.value });
+        setData({ model_name: detail.value })
+      }}
+      value={selectOption.value || ""}
+      options={items.map(({ model_name, model_path }) => ({
+        value: model_path
+      }))}
+      ariaLabel="Select model name"
+      placeholder="Enter model name" 
+      empty="No models found"
+      disabled={readOnly}
       statusType={loadStatus}
       onLoadItems={handleLoadItems}
-      disabled={readOnly}
-      selectedOption={selectOption}
-      onChange={({ detail }) => {
-        setSelectOption(detail.selectedOption);
-        setData({ model_name: detail.selectedOption.value })
-      }}
-      options={items.map(({ model_name, model_path }) => ({
-        label: model_name,
-        value: model_path,
-        tags: [model_path]
-      }))}
-      selectedAriaLabel="Selected"
       ref={refs.model_name}
     />
   )
