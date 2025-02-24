@@ -101,6 +101,7 @@ Resources:
               cd /home/ubuntu/
               git clone --recurse-submodule git@github.com:brickstechnology/llm_model_hub.git || { log "Failed to clone repository"; exit 1; }
               cd /home/ubuntu/llm_model_hub
+              git checkout dev
               yarn install || { log "Failed to run yarn install"; exit 1; }
 
               # 安装 pm2
