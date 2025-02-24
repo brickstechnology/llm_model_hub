@@ -33,20 +33,19 @@ export const BOOSTER_OPTIONS = [
 ]
 
 export const  INSTANCE_TYPES =[
-  { label: 'ml.g4dn.2xlarge', value: 'ml.g4dn.2xlarge' },
-  { label: 'ml.g4dn.12xlarge', value: 'ml.g4dn.12xlarge' },
-  { label: 'ml.g5.2xlarge', value: 'ml.g5.2xlarge' },
-  { label: 'ml.g5.12xlarge', value: 'ml.g5.12xlarge' },
-  { label: 'ml.g5.48xlarge', value: 'ml.g5.48xlarge' },
-  { label: 'ml.g6.2xlarge', value: 'ml.g6.2xlarge' },
-  { label: 'ml.g6.12xlarge', value: 'ml.g6.12xlarge' },
-  { label: 'ml.g6.48xlarge', value: 'ml.g6.48xlarge' },
-  { label: 'ml.g6e.2xlarge', value: 'ml.g6e.2xlarge' },
-  { label: 'ml.g6e.12xlarge', value: 'ml.g6e.12xlarge' },
-  { label: 'ml.g6e.48xlarge', value: 'ml.g6e.48xlarge' },
   { label: 'ml.p4d.24xlarge', value: 'ml.p4d.24xlarge' },
   { label: 'ml.p4de.24xlarge', value: 'ml.p4de.24xlarge' },
-  { label: 'ml.p5.48xlarge', value: 'ml.p5.48xlarge' }
+  { label: 'ml.p3.2xlarge', value: 'ml.p3.2xlarge' },
+  { label: 'ml.p3.8xlarge', value: 'ml.p3.8xlarge' },
+  { label: 'ml.p3.16xlarge', value: 'ml.p3.16xlarge' },
+  { label: 'ml.p2.xlarge', value: 'ml.p2.xlarge' },
+  { label: 'ml.p2.8xlarge', value: 'ml.p2.8xlarge' },
+  { label: 'ml.p2.16xlarge', value: 'ml.p2.16xlarge' },
+  { label: 'ml.g4dn.xlarge', value: 'ml.g4dn.xlarge' },
+  { label: 'ml.g4dn.2xlarge', value: 'ml.g4dn.2xlarge' },
+  { label: 'ml.g4dn.4xlarge', value: 'ml.g4dn.4xlarge' },
+  { label: 'ml.g4dn.8xlarge', value: 'ml.g4dn.8xlarge' },
+  { label: 'ml.g4dn.12xlarge', value: 'ml.g4dn.12xlarge' },
 ]
 
 
